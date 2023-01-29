@@ -1,0 +1,10 @@
+/*
+Enter your query here.
+*/
+select 
+if(g.Grade >7, s.Name, "NULL") as Name,
+g.Grade, s.Marks
+from Students s
+join Grades g
+on s.Marks between g.Min_Mark and g.Max_Mark
+order by Grade desc, if(g.Grade >7, Name, Marks)
