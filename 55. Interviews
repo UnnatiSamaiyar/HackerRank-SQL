@@ -1,0 +1,5 @@
+/*
+Enter your query here.
+*/
+select c.contest_id, c.hacker_id, c.name, coalesce(s.total_Submission,0) total_Submission, coalesce(s.total_accepted_Submission,0) total_accepted_Submission, coalesce(v.total_views,0) total_views, coalesce(v.total_unique_views,0) total_unique_views from contests c left join ( select
+co.contest_id, sum(ss.total_Submissions) total_Submission, sum(ss.total_accepted_Submissions) total_accepted_Submission from colleges co inner join challenges ch on ch.college_id=co.college_id inner join Submission_Stats ss on ss.challenge_id= ch.challenge_id group by co.contest_id ) s on s.contest_id=c.contest_id left join ( select co.contest_id, sum(vs.total_views) total_views, sum(vs.total_unique_views) total_unique_views from colleges co inner join challenges ch on ch.college_id=co.college_id inner join view_stats vs on vs.challenge_id= ch.challenge_id group by co.contest_id ) v on v.contest_id=c.contest_id where total_Submission+total_accepted_Submission+total_views+ total_unique_views>0 ;
