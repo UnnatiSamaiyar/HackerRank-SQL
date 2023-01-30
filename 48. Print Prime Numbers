@@ -1,0 +1,20 @@
+/*
+Enter your query here.
+*/
+WITH RECURSIVE x(val) AS
+(
+  SELECT 1
+  UNION ALL
+  SELECT val + 1 FROM x WHERE val < 1000
+)
+
+select group_concat(val SEPARATOR '&') from (
+    select val
+from (select x.val, x1.val as divisor, mod(x.val,x1.val) as remaindr
+      from x
+      join x as x1 on x1.val <= x.val
+     ) t
+group by val
+having sum(case when remaindr = 0 then 1 else 0 end) = 2
+    order by val
+) ta
