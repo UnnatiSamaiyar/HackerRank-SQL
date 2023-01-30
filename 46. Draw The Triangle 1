@@ -1,0 +1,4 @@
+/*
+Enter your query here.
+*/
+with recursive pattern(n , star) as ( select 20, repeat('* ', 20) union all select n-1, repeat('* ', n-1) from pattern where n > 1 ) select star from pattern;
