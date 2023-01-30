@@ -1,0 +1,10 @@
+/*
+Enter your query here.
+*/
+select count(challenge_id) from Challenges group by hacker_id order by count(challenge_id) desc limit 1 into @total;
+select Hackers.hacker_id, Hackers.name, count(Challenges.challenge_id) as cout
+from Challenges, Hackers 
+where Hackers.hacker_id = Challenges.hacker_id 
+group by Hackers.hacker_id, Hackers.name
+having cout in (select A.cnt from (select count(challenge_id) as cnt from Challenges group by hacker_id) as A group by A.cnt having count(A.cnt) = 1) or cout = @total
+order by cout desc, Hackers.hacker_id
