@@ -1,0 +1,10 @@
+/*
+Enter your query here.
+*/
+select min(start_date) as min_start_date, max(end_date)
+from (select p.*,
+             row_number() over (order by start_date) as seqnum
+      from Projects as p
+     ) Projects
+group by start_date - interval seqnum day
+order by DATEDIFF(max(end_date),min(start_date)), min_start_date;
